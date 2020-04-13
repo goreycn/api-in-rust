@@ -5,13 +5,9 @@ use crate::proc_macro::TokenStream;
 use quote::quote;
 use syn;
 
-#[proc_macro_derive(Hello)]
+#[proc_macro_derive(Hello, attributes(range, length, reg, size, nullable))]
 pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
-    // Construct a representation of Rust code as a syntax tree
-    // that we can manipulate
     let ast = syn::parse(input).unwrap();
-
-    // Build the trait implementation
     impl_hello_macro(&ast)
 }
 
@@ -19,7 +15,7 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
     let name = &ast.ident;
     let data = &ast.data;
     let mut aa = "";
-    let mut field_arr:Vec<proc_macro::TokenStream> =  Vec::new();
+    let mut tmp = quote! {};
 
     match &ast.data {
         syn::Data::Struct(ds) => {
@@ -28,12 +24,22 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
                     ff.named.iter().for_each(|f| {
                         let ident = &f.ident;
                         let ty = &f.ty;
+                        let attrs = &f.attrs;
+
+                        attrs.iter().for_each(|at| {
+                            println!("-- {} -->{} -> {}", at.path.segments.is_empty(), at.path.segments.len(), at.path.segments[0].ident);
+                            println!("-----> {} : {}", at.tokens.is_empty(), at.tokens);
+                        });
 
                         let m = quote! {
-                            println!("field ===> {} : {}", #ident, #ty);
+                            println!("field  {} ---> {}", stringify!(#ident), stringify!(#ty));
                         };
 
-                        field_arr.push(m);
+                        // fa.push(TokenStream::from(m));
+                        tmp = quote! {
+                            #tmp
+                            #m
+                        }
                     });
                     aa = "1111111111"
                 }
@@ -47,20 +53,16 @@ fn impl_hello_macro(ast: &syn::DeriveInput) -> TokenStream {
         }
     }
 
-    // #(#field_arr)*
-
     TokenStream::from(
         quote! {
             impl Hello for #name {
                 fn hi() {
-                    #(#field_arr)*
+                    #tmp
                     println!("-> {}",#aa);
-                    // println!("=======> {}", #field_arr);
                     println!("Hello Macro! My name is {}", stringify!(#name));
                 }
             }
         }
     )
-    // gen.into()
 }
 
