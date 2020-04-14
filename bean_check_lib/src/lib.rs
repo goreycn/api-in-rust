@@ -1,3 +1,22 @@
+use std::fmt;
+use std::fmt::Formatter;
+
+type Result<T> = std::result::Result<T, CheckError>;
+
+
 pub trait BeanCheck {
-    fn is_valid(&self) -> bool;
+    fn validate(&self) -> Result<()>;
+}
+
+#[derive(Debug, Clone)]
+pub enum CheckError {
+    Simple(String),
+}
+
+impl fmt::Display for CheckError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        match self {
+            CheckError::Simple(txt) => write!(f, "{}", txt),
+        }
+    }
 }

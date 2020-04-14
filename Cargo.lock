@@ -15,7 +15,6 @@ version = "0.1.0"
 dependencies = [
  "bean_check",
  "bean_check_lib",
- "cc",
  "regex",
 ]
 
@@ -31,14 +30,6 @@ dependencies = [
 [[package]]
 name = "bean_check_lib"
 version = "0.1.0"
-
-[[package]]
-name = "cc"
-version = "0.1.0"
-dependencies = [
- "quote",
- "syn",
-]
 
 [[package]]
 name = "lazy_static"
