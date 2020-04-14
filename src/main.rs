@@ -38,6 +38,4 @@ fn main() {
         Ok(_) => { println!("check pass "); },
         Err(e) => { println!("{}", e); },
     }
-
-    let result = Regex::from_str("");
 }
