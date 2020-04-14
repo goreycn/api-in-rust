@@ -79,11 +79,22 @@ fn generate_validate(ast: &syn::DeriveInput) -> TokenStream {
                                     // handle property : Pattern(r"^.*$")
                                     validate_quote = quote! {
                                         #validate_quote
-                                        if !( Regex::new(#tmp).unwrap().is_match(self.#ident.as_str())  ) {
+                                        let g = #param;
+                                        let reg_str = &g[3..(g.len()-2)];
+                                        if !( Regex::from_str(reg_str).unwrap().is_match(self.#ident.as_str())  ) {
+                                            return Err(bean_check_lib::CheckError::Simple(stringify!(check failed: #ident #at).to_string()));
+                                        }
+                                    }
+                                }  else if prop == "Email".to_string() {
+                                    println!("check mail");
+                                    validate_quote = quote! {
+                                        #validate_quote
+                                        if !( Regex::new(r"^([a-z0-9_+]([a-z0-9_+.]*[a-z0-9_+])?)@([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6})").unwrap().is_match(self.#ident.as_str())  ) {
                                             return Err(bean_check_lib::CheckError::Simple(stringify!(check failed: #ident #at).to_string()));
                                         }
                                     }
                                 }
+
                             } else if ft == "u8".to_string() || ft == "i8".to_string() || ft == "u16".to_string() || ft == "i16".to_string() || ft == "u32".to_string() || ft == "i32".to_string() || ft == "u64".to_string() || ft == "i64".to_string() || ft == "u128".to_string() || ft == "i128".to_string() || ft == "f32".to_string() || ft == "f64".to_string() {
                                 // handle Integer field
                                 if prop == "Min".to_string() {
