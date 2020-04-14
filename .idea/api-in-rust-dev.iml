@@ -6,6 +6,16 @@
       <sourceFolder url="file://$MODULE_DIR$/examples" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/bean_check/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/bean-check/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/bean-check/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/bean-check/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/bean_check_lib/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/bean_check_lib/examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/bean_check_lib/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/bean_check_lib/benches" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/bean-check/target" />
+      <excludeFolder url="file://$MODULE_DIR$/bean_check_lib/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
