@@ -1,12 +1,16 @@
 [package]
-name = "api-in-rust"
+name = "bean_check"
 version = "0.1.0"
 authors = ["Gorey <goreycn@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+proc-macro=true
+
 [dependencies]
-bean_check = { path = "bean_check"}
-bean_check_lib = { path = "bean_check_lib"}
+syn = "1.0"
+quote = "1.0"
+
 regex = "1"
