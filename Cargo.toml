@@ -10,3 +10,4 @@ edition = "2018"
 bean_check = { path = "bean_check"}
 bean_check_lib = { path = "bean_check_lib"}
 regex = "1"
+md-5 = "0.8.0"

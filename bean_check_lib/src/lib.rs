@@ -6,6 +6,7 @@ type Result<T> = std::result::Result<T, CheckError>;
 
 pub trait BeanCheck {
     fn validate(&self) -> Result<()>;
+    fn sign_check(&self, uri:&String, token:&String)->bool;
 }
 
 #[derive(Debug, Clone)]

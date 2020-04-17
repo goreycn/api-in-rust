@@ -7,6 +7,7 @@ use quote::quote;
 use syn;
 use std::str::FromStr;
 
+
 ///
 ///
 /// NotEmpty : not null or empty
@@ -27,12 +28,24 @@ fn generate_validate(ast: &syn::DeriveInput) -> TokenStream {
     let name = &ast.ident;
     let mut validate_quote = quote! {};
 
+    let mut fv_map_quote = quote! {
+        let mut mm = BTreeMap::new();
+    };
+
     match &ast.data {
         syn::Data::Struct(ds) => {
             match &ds.fields {
                 syn::Fields::Named(ff) => {
+
                     ff.named.iter().for_each(|f| {
+
                         let ident = &f.ident;
+
+                        fv_map_quote = quote! {
+                            #fv_map_quote
+                            mm.insert(stringify!(#ident), format!("{}", self.#ident));
+                        };
+
                         let ty = &f.ty;
                         let attrs = &f.attrs;
                         let mut ft = String::from("");
@@ -136,6 +149,7 @@ fn generate_validate(ast: &syn::DeriveInput) -> TokenStream {
         _ => {}
     }
 
+
     TokenStream::from(
         quote! {
             impl BeanCheck for #name {
@@ -143,7 +157,36 @@ fn generate_validate(ast: &syn::DeriveInput) -> TokenStream {
                     #validate_quote
                     Ok(())
                 }
-            }
+
+                fn sign_check(&self, uri:&String, token:&String)->bool {
+                    #fv_map_quote
+                    let mut vv = vec![];
+                    let mut client_sign = "".to_string();
+
+                    for (k, v) in mm {
+                        if k == "sign".to_string() {
+                            client_sign = v;
+                        }
+                        else {
+                            vv.push(v);
+                        }
+                    }
+                    let values = vv.concat();
+
+                    let salt = "45eb49de-e591-4f77-9172-044d0fa10d83";
+
+                    let plain = format!("{}{}{}{}", uri, &values, token, &salt);
+                    println!("plain : {}", &plain);
+
+                    let mut hasher = Md5::new();
+                    hasher.input(plain.as_bytes());
+                    let server_sign = format!("{:x}", hasher.result());
+
+                    println!("server sign : {},  client sign :{}", &server_sign, &client_sign);
+
+                    client_sign == server_sign
+                }
+           }
         }
     )
 }
