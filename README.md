@@ -67,6 +67,11 @@ fn main() {
 }
 ```
 
+Update
+------
+- 2020-04-17 : add sign check method ,provide basic md5 sign check function.
+
+
 Debug Macro
 -----------
 You can install cargo-expand util, to see the pre-compiled code for macros.
