@@ -77,6 +77,13 @@ cargo install cargo-expand
 cargo expand
 ```
 
+#### TODO
+---------
+[x] Bean Check Macro
+[x] Param Bean Sign check
+[ ] Log
+[ ] MySQL handle
+[ ] Redis handle
 
 
 #### License
