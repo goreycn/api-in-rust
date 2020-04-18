@@ -67,9 +67,9 @@ fn main() {
 }
 ```
 
-Debug Macro
+About Debug Macro
 -----------
-You can install cargo-expand util, to see the pre-compiled code for macros.
+You can install cargo-expand util, to see the pre-compiled code for macros witn command: cargo expand.
 
 ```shell script
 cargo install cargo-expand
@@ -77,7 +77,7 @@ cargo install cargo-expand
 cargo expand
 ```
 
-#### TODO
+Todo
 ---------
 
 - [x] Bean Check Macro
